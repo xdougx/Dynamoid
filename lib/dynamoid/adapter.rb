@@ -19,9 +19,9 @@ module Dynamoid
     #
     # @since 0.2.0
     def reconnect!
-      require "dynamoid/adapter/#{Dynamoid::Config.adapter}" unless Dynamoid::Adapter.const_defined?(Dynamoid::Config.adapter.camelcase)
-      @adapter = Dynamoid::Adapter.const_get(Dynamoid::Config.adapter.camelcase)
-      @adapter.connect! if @adapter.respond_to?(:connect!)
+      require 'dynamoid/adapter/aws_sdk'
+      @adapter = Dynamoid::Adapter::AwsSdk
+      @adapter.connect!
       self.tables = benchmark('Cache Tables') {list_tables}
     end
 
